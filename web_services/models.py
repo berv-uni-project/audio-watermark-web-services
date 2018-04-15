@@ -28,6 +28,7 @@ class Embed(models.Model):
     audio_input = models.TextField(default='')
     key = models.TextField(default='')
     accessToken = models.TextField(default='')
+    user_id = models.TextField(null=True)
     audio_output = models.TextField(null=True)
     result = models.TextField(null=True)
 
@@ -71,6 +72,7 @@ class Extract(models.Model):
     size = models.TextField(default='')
     key = models.TextField(default='')
     accessToken = models.TextField(default='')
+    user_id = models.TextField(null=True)
     image_output = models.TextField(null=True)
     result = models.TextField(null=True)
 
@@ -80,4 +82,9 @@ class Extract(models.Model):
         if self.status == 'pending':
             from .tasks import TASK_MAPPING
             task = TASK_MAPPING[self.method_option]
-            task.delay(job_id=self.id, n=self.argument)
+            task.delay(job_id=self.id,
+            watermarked_audio_input=self.watermarked_audio_input,
+            original_audio_input = self.original_audio_input,
+            size=self.size,
+            key=self.key,
+            accessToken=self.accessToken)

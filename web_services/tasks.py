@@ -33,10 +33,11 @@ def embed_job(fn):
         job.save()
         try:
             # execute the function fn
-            result = fn(job_id, *args, **kwargs)
+            result,uid = fn(job_id, *args, **kwargs)
             # check extract or embed
             job.result = result
             job.audio_output = result
+            job.user_id = uid
             job.status = 'finished'
             job.save()
         except Exception as ex:
@@ -61,6 +62,7 @@ def extract_job(fn):
             # check extract or embed
             job.result = result
             job.image_output = result
+            job.user_id = uid
             job.status = 'finished'
             job.save()
         except Exception as ex:
@@ -82,18 +84,18 @@ def embed_1(job_id,image_input, audio_input, key, accessToken, method_option):
         storage = firebase.storage()
         decoded_token = auth.verify_id_token(accessToken, app=default_app)
         with tempfile.TemporaryDirectory(prefix='{}-'.format(job_id)) as tmpdirname:
+            uid = decoded_token['uid']
             file_audio = '{}/{}.wav'.format(tmpdirname,job_id)
             file_image = '{}/{}.jpg'.format(tmpdirname,job_id)
             storage.child(audio_input).download(file_audio, accessToken)
             storage.child(image_input).download(file_image, accessToken)
             embbeder = Embedder()
             finished = embbeder.embed(audio_path=file_audio, image_path=file_image, key=key)
-            uid = decoded_token['uid']
             target = '{}/{}-watermarked.wav'.format(uid,job_id)
             storage.child(target).put(finished, accessToken)
-            return target
+            return target,uid
     else:
-        return 'Unsupported Method'
+        return 'Unsupported Method',None
 
 @app.task
 @extract_job
@@ -112,13 +114,13 @@ def extract_1(job_id,watermarked_audio_input, original_audio_input, size, key, a
             storage.child(watermarked_audio_input).download(file_audio_watermarked, uid)
             storage.child(original_audio_input).download(file_audio_original, uid)
             embbeder = Embedder()
-            finished = embed.extract(watermarked_audio=file_audio_watermarked,
+            finished = embbeder.extract(watermarked_audio=file_audio_watermarked,
                     original_audio=file_audio_original, key=key, location=temp_loc_target, size=size)
             target = '{}/{}-extracted.jpg'.format(uid,job_id)
             storage.child(target).put(finished, uid)
-            return target
+            return target,uid
     else:
-        return 'Unsupported Method'
+        return 'Unsupported Method',None
 
 
 # mapping from names to tasks
