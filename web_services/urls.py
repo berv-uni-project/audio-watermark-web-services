@@ -5,7 +5,8 @@ from . import views
 
 router = routers.DefaultRouter()  
 # register job endpoint in the router
-router.register(r'jobs', views.JobViewSet)
+router.register(r'extract', views.ExtractViewSet)
+router.register(r'embed', views.EmbedViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

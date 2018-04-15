@@ -6,16 +6,26 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 
-from .models import Job  
-from .serializers import JobSerializer
+from .models import Embed, Extract
+from .serializers import EmbedSerializer, ExtractSerializer
 
 
-class JobViewSet(mixins.CreateModelMixin,  
+class EmbedViewSet(mixins.CreateModelMixin,  
                  mixins.ListModelMixin,
                  mixins.RetrieveModelMixin,
                  viewsets.GenericViewSet):
     """
     API endpoint that allows jobs to be viewed or created.
     """
-    queryset = Job.objects.all()
-    serializer_class = JobSerializer
+    queryset = Embed.objects.all()
+    serializer_class = EmbedSerializer
+
+class ExtractViewSet(mixins.CreateModelMixin,  
+                 mixins.ListModelMixin,
+                 mixins.RetrieveModelMixin,
+                 viewsets.GenericViewSet):
+    """
+    API endpoint that allows jobs to be viewed or created.
+    """
+    queryset = Extract.objects.all()
+    serializer_class = ExtractSerializer

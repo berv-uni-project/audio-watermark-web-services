@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Job
+from .models import Embed,Extract
 # Register your models here.
 
-admin.site.register(Job)
+admin.site.register(Embed)
+admin.site.register(Extract)

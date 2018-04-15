@@ -11,4 +11,9 @@ WORKDIR /app/
 RUN pip install -r requirements.txt
 
 # create unprivileged user
-RUN adduser --disabled-password --gecos '' audiomaster  
+RUN adduser --disabled-password --gecos '' audiomaster
+
+# install ffmpeg 
+RUN apt-get update
+RUN apt-get -y install libav-tools libsndfile1
+
