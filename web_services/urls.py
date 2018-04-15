@@ -2,7 +2,6 @@ from django.conf.urls import url, include
 from rest_framework import routers
 from . import views
 
-
 router = routers.DefaultRouter()  
 # register job endpoint in the router
 router.register(r'extract', views.ExtractViewSet)

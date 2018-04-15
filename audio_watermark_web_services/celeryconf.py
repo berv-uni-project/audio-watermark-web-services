@@ -5,7 +5,7 @@ from django.conf import settings
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "audio_watermark_web_services.settings")
 
-app = Celery('web_services')
+app = Celery('audio_watermark_web_services')
 
 CELERY_TIMEZONE = 'UTC'
 

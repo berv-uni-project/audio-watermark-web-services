@@ -26,12 +26,13 @@ SECRET_KEY = 'f5wfulxfjlp2$ihz(fo+dkg=b0pap&m*g$3b*aq8m3zr6zs7_b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 TEMPLATE_DEBUG = True  
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 INSTALLED_APPS = [
     'rest_framework',
+    'reset_migrations',
     'web_services.apps.WebServicesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -194,3 +195,7 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERYD_HIJACK_ROOT_LOGGER = False  
 CELERYD_PREFETCH_MULTIPLIER = 1  
 CELERYD_MAX_TASKS_PER_CHILD = 1000  
+
+CELERY_IMPORTS = (
+    'web_services.tasks',
+)

@@ -9,7 +9,6 @@ from rest_framework.response import Response
 from .models import Embed, Extract
 from .serializers import EmbedSerializer, ExtractSerializer
 
-
 class EmbedViewSet(mixins.CreateModelMixin,  
                  mixins.ListModelMixin,
                  mixins.RetrieveModelMixin,
