@@ -58,7 +58,7 @@ def extract_job(fn):
         job.save()
         try:
             # execute the function fn
-            result = fn(*args, **kwargs)
+            result, uid = fn(job_id,*args, **kwargs)
             # check extract or embed
             job.result = result
             job.image_output = result
@@ -111,13 +111,13 @@ def extract_1(job_id,watermarked_audio_input, original_audio_input, size, key, a
             file_audio_watermarked = '{}/{}-watermarked.wav'.format(tmpdirname,job_id)
             file_audio_original = '{}/{}-original.wav'.format(tmpdirname,job_id)
             temp_loc_target = '{}/{}-extracted.jpg'.format(tmpdirname,job_id)
-            storage.child(watermarked_audio_input).download(file_audio_watermarked, uid)
-            storage.child(original_audio_input).download(file_audio_original, uid)
+            storage.child(watermarked_audio_input).download(file_audio_watermarked, accessToken)
+            storage.child(original_audio_input).download(file_audio_original, accessToken)
             embbeder = Embedder()
             finished = embbeder.extract(watermarked_audio=file_audio_watermarked,
-                    original_audio=file_audio_original, key=key, location=temp_loc_target, size=size)
+                    original_audio=file_audio_original, key=key, location=temp_loc_target, size=int(size))
             target = '{}/{}-extracted.jpg'.format(uid,job_id)
-            storage.child(target).put(finished, uid)
+            storage.child(target).put(finished, accessToken)
             return target,uid
     else:
         return 'Unsupported Method',None

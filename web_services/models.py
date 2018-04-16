@@ -87,4 +87,5 @@ class Extract(models.Model):
             original_audio_input = self.original_audio_input,
             size=self.size,
             key=self.key,
-            accessToken=self.accessToken)
+            accessToken=self.accessToken,
+            method_option=self.method_option)
