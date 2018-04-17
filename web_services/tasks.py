@@ -7,6 +7,7 @@ import pyrebase
 import tempfile
 import firebase_admin
 from firebase_admin import credentials,auth
+import sys, os
 
 from celery.utils.log import get_task_logger
 
