@@ -41,8 +41,11 @@ def embed_job(fn):
             job.status = 'finished'
             job.save()
         except Exception as ex:
-            logger.info(str(ex))
-            job.result = str(ex)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            message = '{}:{}:{}'.format(exc_type, fname, exc_tb.tb_lineno)
+            logger.info(message)
+            job.result = message
             job.status = 'failed'
             job.save()
     return wrapper
@@ -66,7 +69,11 @@ def extract_job(fn):
             job.status = 'finished'
             job.save()
         except Exception as ex:
-            job.result = str(ex)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            message = '{}:{}:{}'.format(exc_type, fname, exc_tb.tb_lineno)
+            logger.info(message)
+            job.result = message
             job.status = 'failed'
             job.save()
     return wrapper
