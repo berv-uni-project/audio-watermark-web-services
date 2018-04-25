@@ -2,7 +2,7 @@ import numpy as np
 from pydub import AudioSegment
 import pywt
 import cv2
-from .read_image import arnold_from_file, anti_arnold_iteration
+from read_image import arnold_from_file, anti_arnold_iteration
 from scipy.io import wavfile
 from scipy.fftpack import dct, idct
 import random
