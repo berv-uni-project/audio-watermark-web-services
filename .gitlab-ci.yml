@@ -1,5 +1,7 @@
 pages:
   stage: deploy
+  scripts:
+    - cp public .public
   artifacts:
     paths:
     - public
