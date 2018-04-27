@@ -24,10 +24,17 @@ before_script:
   - virtualenv venv
   - source venv/bin/activate
   - pip install safety
+  - pip install pylint-django
+  - pip install pylint-celery
 
 test:
   script:
   - safety check
+  - pylint --load-plugins pylint_django --load-plugins pylint_django.checkers.db_performance web_services/models.py
+  - pylint --load-plugins pylint_celery web_services/tasks.py
+  - pylint web_services/embedder.py
+  - pylint web_services/read_image.py
+
 
 pages:
   stage: deploy
