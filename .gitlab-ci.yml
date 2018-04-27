@@ -26,6 +26,7 @@ before_script:
   - pip install safety
   - pip install pylint-django
   - pip install pylint-celery
+  - pip install -r requirements.txt
 
 test:
   script:
