@@ -83,9 +83,9 @@ class Extract(models.Model):
             from .tasks import TASK_MAPPING
             task = TASK_MAPPING[self.method_option]
             task.delay(job_id=self.id,
-            watermarked_audio_input=self.watermarked_audio_input,
-            original_audio_input = self.original_audio_input,
-            size=self.size,
-            key=self.key,
-            accessToken=self.accessToken,
-            method_option=self.method_option)
+                       watermarked_audio_input=self.watermarked_audio_input,
+                       original_audio_input=self.original_audio_input,
+                       size=self.size,
+                       key=self.key,
+                       accessToken=self.accessToken,
+                       method_option=self.method_option)
