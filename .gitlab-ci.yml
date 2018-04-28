@@ -31,10 +31,10 @@ before_script:
 test:
   script:
   - safety check
-  - pylint --load-plugins pylint_django --load-plugins pylint_django.checkers.db_performance web_services/models.py
-  - pylint --load-plugins pylint_celery web_services/tasks.py
-  - pylint web_services/embedder.py
   - pylint web_services/read_image.py
+  - pylint web_services/embedder.py
+  - pylint --load-plugins pylint_django --load-plugins pylint_django.checkers.db_performance web_services/models.py
+  - pylint --load-plugins pylint_django --load-plugins pylint_django.checkers.db_performance --load-plugins pylint_celery web_services/tasks.py
 
 
 pages:
