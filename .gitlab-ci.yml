@@ -35,7 +35,7 @@ test:
   - pylint web_services/embedder.py
   - pylint --load-plugins pylint_django --load-plugins pylint_django.checkers.db_performance web_services/models.py
   - pylint --load-plugins pylint_django --load-plugins pylint_django.checkers.db_performance --load-plugins pylint_celery web_services/tasks.py
-
+  - python -m unittest web_services/test_embedder
 
 pages:
   stage: deploy
