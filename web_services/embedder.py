@@ -67,40 +67,42 @@ class Embedder:
         newLocation = audio_name + '-watermarked' + audio_ext
         img_array = self._processed_image(image_path, key)
         if img_array is None:
-            print('No Image')
             return 'No Image'
         else:
             if audio_ext == '.wav':
                 # read audio
                 try:
                     sounds = AudioSegment.from_file(audio_path)
-                    # check audio channels, if stereo just edit left channel
-                    if (sounds.channels == 2):
-                        audio_array = sounds.split_to_mono()
-                        left_samples = audio_array[0].get_array_of_samples()
-                        right_samples = audio_array[1].get_array_of_samples()
-                        append = len(left_samples) % 4
-                        if append != 0:
-                            i = 0
-                            while i < 4 - append:
-                                left_samples.append(-128)
-                                right_samples.append(-128)
-                                i = i + 1
-                            audio_array[1] = audio_array[1]._spawn(right_samples)
-
-                        newAudioLeft = self._insert_data_to_frame(
-                            left_samples, img_array)
-                        new_left_channel = audio_array[0]._spawn(newAudioLeft)
-                        newAudioSound = AudioSegment.from_mono_audiosegments(
-                            new_left_channel, audio_array[1])
-                        newAudioSound.export(newLocation, format='wav')
-                        return newLocation
+                    if len(img_array) > len(sounds):
+                        return 'Not Enough to Save'
                     else:
-                        samples = sounds.get_array_of_samples()
-                        newAudioData = self._insert_data_to_frame(samples, img_array)
-                        newSound = sounds._spawn(newAudioData)
-                        newSound.export(newLocation, format='wav')
-                        return newLocation
+                        # check audio channels, if stereo just edit left channel
+                        if (sounds.channels == 2):
+                            audio_array = sounds.split_to_mono()
+                            left_samples = audio_array[0].get_array_of_samples()
+                            right_samples = audio_array[1].get_array_of_samples()
+                            append = len(left_samples) % 4
+                            if append != 0:
+                                i = 0
+                                while i < 4 - append:
+                                    left_samples.append(-128)
+                                    right_samples.append(-128)
+                                    i = i + 1
+                                audio_array[1] = audio_array[1]._spawn(right_samples)
+
+                            newAudioLeft = self._insert_data_to_frame(
+                                left_samples, img_array)
+                            new_left_channel = audio_array[0]._spawn(newAudioLeft)
+                            newAudioSound = AudioSegment.from_mono_audiosegments(
+                                new_left_channel, audio_array[1])
+                            newAudioSound.export(newLocation, format='wav')
+                            return newLocation
+                        else:
+                            samples = sounds.get_array_of_samples()
+                            newAudioData = self._insert_data_to_frame(samples, img_array)
+                            newSound = sounds._spawn(newAudioData)
+                            newSound.export(newLocation, format='wav')
+                            return newLocation
                 except Exception as excep:
                     return str(excep)   
             else:
