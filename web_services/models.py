@@ -1,10 +1,8 @@
+""" Models Data for Database """
 from django.db import models
 
-# Create your models here.
-
-
 class Embed(models.Model):
-    """Class describing a computational job"""
+    """Class describing a embed job"""
 
     # list of statuses that job can have
     STATUSES = (
@@ -32,7 +30,7 @@ class Embed(models.Model):
     audio_output = models.TextField(null=True)
     result = models.TextField(null=True)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs): # pylint: disable=arguments-differ
         """Save model and if job is in pending state, schedule it"""
         super(Embed, self).save(*args, **kwargs)
         if self.status == 'pending':
@@ -49,6 +47,7 @@ class Embed(models.Model):
 
 
 class Extract(models.Model):
+    """ Extract Job Model """
     # list of statuses that job can have
     STATUSES = (
         ('pending', 'pending'),
@@ -76,16 +75,16 @@ class Extract(models.Model):
     image_output = models.TextField(null=True)
     result = models.TextField(null=True)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs): # pylint: disable=arguments-differ
         """Save model and if job is in pending state, schedule it"""
         super(Extract, self).save(*args, **kwargs)
         if self.status == 'pending':
             from .tasks import TASK_MAPPING
             task = TASK_MAPPING[self.method_option]
             task.delay(job_id=self.id,
-            watermarked_audio_input=self.watermarked_audio_input,
-            original_audio_input = self.original_audio_input,
-            size=self.size,
-            key=self.key,
-            accessToken=self.accessToken,
-            method_option=self.method_option)
+                       watermarked_audio_input=self.watermarked_audio_input,
+                       original_audio_input=self.original_audio_input,
+                       size=self.size,
+                       key=self.key,
+                       accessToken=self.accessToken,
+                       method_option=self.method_option)
