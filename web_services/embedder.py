@@ -110,8 +110,8 @@ class Embedder:
                             new_sound = sounds._spawn(new_audio_data) # pylint: disable=protected-access
                             new_sound.export(new_location, format='wav')
                             return new_location
-                    except Exception as excep: # pylint: disable=broad-except
-                        return str(excep)
+                except Exception as excep: # pylint: disable=broad-except
+                    return str(excep)
             else:
                 return 'Unsupported Format'
 
