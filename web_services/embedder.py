@@ -79,7 +79,7 @@ class Embedder:
                 # read audio
                 try:
                     sounds = AudioSegment.from_file(audio_path)
-                    if len(img_array) > len(sounds):
+                    if len(img_array) > sounds.frame_count():
                         return 'Not Enough to Save'
                     else:
                         # check audio channels, if stereo just edit left channel
