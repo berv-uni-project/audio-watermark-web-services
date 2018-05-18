@@ -4,7 +4,6 @@ import os
 from functools import wraps
 import tempfile
 from celery.utils.log import get_task_logger
-import pyrebase
 import firebase_admin
 from firebase_admin import credentials, auth, storage
 from audio_watermark_web_services.celeryconf import app
@@ -91,10 +90,10 @@ def embed_1(job_id, image_input, audio_input, key, accessToken, method_option): 
     """Embedding Task Mode 1"""
     if method_option == 'embed_1':
         default_app = None
-        if firebase_admin._DEFAULT_APP_NAME not in firebase_admin._apps:
+        if firebase_admin._DEFAULT_APP_NAME not in firebase_admin._apps: # pylint: disable=protected-access
             cred = credentials.Certificate('/app/web_services/final-project.json')
             default_app = firebase_admin.initialize_app(cred, {
-                 'storageBucket': 'final-project-877fd.appspot.com'
+                'storageBucket': 'final-project-877fd.appspot.com'
             })
         else:
             default_app = firebase_admin.get_app()
@@ -127,11 +126,11 @@ def extract_1(job_id, watermarked_audio_input, original_audio_input, size, key, 
     """Extracting Mode 1"""
     if method_option == 'extract_1':
         default_app = None
-        if firebase_admin._DEFAULT_APP_NAME not in firebase_admin._apps:
-             cred = credentials.Certificate('/app/web_services/final-project.json')
-             default_app = firebase_admin.initialize_app(cred, {
-                 'storageBucket': 'final-project-877fd.appspot.com'
-             })
+        if firebase_admin._DEFAULT_APP_NAME not in firebase_admin._apps: # pylint: disable=protected-access
+            cred = credentials.Certificate('/app/web_services/final-project.json')
+            default_app = firebase_admin.initialize_app(cred, {
+                'storageBucket': 'final-project-877fd.appspot.com'
+            })
         else:
              default_app = firebase_admin.get_app()
         bucket = storage.bucket()
