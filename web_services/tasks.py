@@ -132,7 +132,7 @@ def extract_1(job_id, watermarked_audio_input, original_audio_input, size, key, 
                 'storageBucket': 'final-project-877fd.appspot.com'
             })
         else:
-             default_app = firebase_admin.get_app()
+            default_app = firebase_admin.get_app()
         bucket = storage.bucket()
         decoded_token = auth.verify_id_token(accessToken, app=default_app)
         with tempfile.TemporaryDirectory(prefix='{}-'.format(job_id)) as tmpdirname:
