@@ -4,9 +4,8 @@ import os
 from functools import wraps
 import tempfile
 from celery.utils.log import get_task_logger
-import pyrebase
 import firebase_admin
-from firebase_admin import credentials, auth
+from firebase_admin import credentials, auth, storage
 from audio_watermark_web_services.celeryconf import app
 from .models import Embed, Extract
 from .embedder import Embedder
@@ -90,24 +89,32 @@ def extract_job(fun):
 def embed_1(job_id, image_input, audio_input, key, accessToken, method_option): # pylint: disable=invalid-name, too-many-arguments, too-many-locals
     """Embedding Task Mode 1"""
     if method_option == 'embed_1':
-        firebase = pyrebase.initialize_app(CONFIG)
-        cred = credentials.Certificate('/app/web_services/final-project.json')
-        default_app = firebase_admin.initialize_app(cred)
-        storage = firebase.storage()
+        default_app = None
+        if firebase_admin._DEFAULT_APP_NAME not in firebase_admin._apps: # pylint: disable=protected-access
+            cred = credentials.Certificate('/app/web_services/final-project.json')
+            default_app = firebase_admin.initialize_app(cred, {
+                'storageBucket': 'final-project-877fd.appspot.com'
+            })
+        else:
+            default_app = firebase_admin.get_app()
+        bucket = storage.bucket()
         decoded_token = auth.verify_id_token(accessToken, app=default_app)
         with tempfile.TemporaryDirectory(prefix='{}-'.format(job_id)) as tmpdirname:
             uid = decoded_token['uid']
             file_audio = '{}/{}.wav'.format(tmpdirname, job_id)
             file_image = '{}/{}.jpg'.format(tmpdirname, job_id)
-            storage.child(audio_input).download(file_audio, accessToken)
-            storage.child(image_input).download(file_image, accessToken)
+            blob = bucket.blob(audio_input)
+            blob.download_to_filename(file_audio)
+            blob1 = bucket.blob(image_input)
+            blob1.download_to_filename(file_image)
             embbeder = Embedder()
             finished = embbeder.embed(
                 audio_path=file_audio,
                 image_path=file_image,
                 key=key)
             target = '{}/{}-watermarked.wav'.format(uid, job_id)
-            storage.child(target).put(finished, accessToken)
+            blob_target = bucket.blob(target)
+            blob_target.upload_from_filename(finished)
             return target, uid
     else:
         return 'Unsupported Method', None
@@ -118,10 +125,15 @@ def embed_1(job_id, image_input, audio_input, key, accessToken, method_option): 
 def extract_1(job_id, watermarked_audio_input, original_audio_input, size, key, accessToken, method_option): # pylint: disable=line-too-long, invalid-name, too-many-arguments, too-many-locals
     """Extracting Mode 1"""
     if method_option == 'extract_1':
-        firebase = pyrebase.initialize_app(CONFIG)
-        cred = credentials.Certificate('/app/web_services/final-project.json')
-        default_app = firebase_admin.initialize_app(cred)
-        storage = firebase.storage()
+        default_app = None
+        if firebase_admin._DEFAULT_APP_NAME not in firebase_admin._apps: # pylint: disable=protected-access
+            cred = credentials.Certificate('/app/web_services/final-project.json')
+            default_app = firebase_admin.initialize_app(cred, {
+                'storageBucket': 'final-project-877fd.appspot.com'
+            })
+        else:
+            default_app = firebase_admin.get_app()
+        bucket = storage.bucket()
         decoded_token = auth.verify_id_token(accessToken, app=default_app)
         with tempfile.TemporaryDirectory(prefix='{}-'.format(job_id)) as tmpdirname:
             uid = decoded_token['uid']
@@ -130,10 +142,10 @@ def extract_1(job_id, watermarked_audio_input, original_audio_input, size, key, 
             file_audio_original = '{}/{}-original.wav'.format(
                 tmpdirname, job_id)
             temp_loc_target = '{}/{}-extracted.jpg'.format(tmpdirname, job_id)
-            storage.child(watermarked_audio_input).download(
-                file_audio_watermarked, accessToken)
-            storage.child(original_audio_input).download(
-                file_audio_original, accessToken)
+            blob = bucket.blob(watermarked_audio_input)
+            blob.download_to_filename(file_audio_watermarked)
+            blob1 = bucket.blob(original_audio_input)
+            blob1.download_to_filename(file_audio_original)
             embbeder = Embedder()
             finished = embbeder.extract(watermarked_audio=file_audio_watermarked,
                                         original_audio=file_audio_original,
@@ -141,7 +153,8 @@ def extract_1(job_id, watermarked_audio_input, original_audio_input, size, key, 
                                         location=temp_loc_target,
                                         size=int(size))
             target = '{}/{}-extracted.jpg'.format(uid, job_id)
-            storage.child(target).put(finished, accessToken)
+            blob2 = bucket.blob(target)
+            blob2.upload_from_filename(finished)
             return target, uid
     else:
         return 'Unsupported Method', None
