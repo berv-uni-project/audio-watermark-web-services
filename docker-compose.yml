@@ -5,6 +5,7 @@ services:
   db:
     image: postgres:10.3
     hostname: db
+    restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -16,11 +17,13 @@ services:
   redis:
     image: redis:4.0.9
     hostname: redis
+    restart: always
 
   # RabbitMQ
   rabbit:
     hostname: rabbit
     image: rabbitmq:3.7.4
+    restart: always
     environment:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=audiomaster
@@ -34,6 +37,7 @@ services:
       context: .
       dockerfile: Dockerfile
     hostname: web
+    restart: always
     command: ./run_web.sh
     volumes:
       - .:/app  # mount current directory inside container
@@ -53,6 +57,7 @@ services:
       context: .
       dockerfile: Dockerfile
     command: ./run_celery.sh
+    restart: always
     volumes:
       - .:/app
     links:
