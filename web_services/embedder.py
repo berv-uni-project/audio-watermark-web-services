@@ -5,8 +5,8 @@ import numpy as np
 from pydub import AudioSegment
 import pywt
 import cv2
-from .read_image import arnold_from_file, anti_arnold_iteration, arnold_rgb_iteration, anti_arnold_rgb_iteration
-
+from .read_image import arnold_from_file, anti_arnold_iteration
+from .read_image import arnold_rgb_iteration
 
 class Embedder:
     """ Embedder Class """
@@ -14,9 +14,15 @@ class Embedder:
     _name = 'DWT BASED ALGORITHM by Bervianto'
 
     def get_id(self):
+        """
+        GET ID of Emmbedder Class
+        """
         return self._id
 
     def get_name(self):
+        """
+        GET Name of Emmbedder Class
+        """
         return self._name
 
     @staticmethod
@@ -58,8 +64,7 @@ class Embedder:
 
     @staticmethod
     def _insert_data_to_frame(audio=None, image=None, mode='haar'):
-        ca1, cd1, ca2, cd2 = Embedder._dwt_two_level(
-            audio, mode)  # pylint: disable=unused-variable
+        ca1, cd1, ca2, cd2 = Embedder._dwt_two_level(audio, mode)  # pylint: disable=unused-variable
         out = Embedder._input_image_to_coef(cd2, image)
         new_audio = Embedder._idwt_two_level(cd1, ca2, out, mode)
         return new_audio
@@ -81,7 +86,8 @@ class Embedder:
     @staticmethod
     def _processed_image(image_path=None, key=None):
         rounds = Embedder._key_to_integer(key)
-        b, g, r = arnold_rgb_iteration(image_path, rounds)
+        b, g, r = arnold_rgb_iteration(image_path, rounds) # pylint: disable=invalid-name
+        out = None
         if (r is not None) and (g is not None) and (b is not None):
             r_arr = np.reshape(r, r.shape[0] * r.shape[1])
             b_arr = np.reshape(b, b.shape[0] * b.shape[1])
@@ -89,9 +95,7 @@ class Embedder:
             temp_1 = np.append(b_arr, g_arr)
             out_np = np.append(temp_1, r_arr)
             out = [x for x in out_np]
-            return out
-        else:
-            return None
+        return out
 
     @staticmethod
     def _extract_from_cd2(cd2_ori, cd2_water, size=0, is_rgb=True):
@@ -155,12 +159,10 @@ class Embedder:
                             left_samples.append(-128)
                             right_samples.append(-128)
                             i = i + 1
-                        audio_array[1] = audio_array[1]._spawn(
-                            right_samples)  # pylint: disable=protected-access
+                        audio_array[1] = audio_array[1]._spawn(right_samples)  # pylint: disable=protected-access
                     new_audio_left = Embedder._insert_data_to_frame(
                         left_samples, img_array, 'haar')
-                    new_left_channel = audio_array[0]._spawn(
-                        new_audio_left)  # pylint: disable=protected-access
+                    new_left_channel = audio_array[0]._spawn(new_audio_left)  # pylint: disable=protected-access
                     new_audio_sound = AudioSegment.from_mono_audiosegments(
                         new_left_channel,
                         audio_array[1])
@@ -170,8 +172,7 @@ class Embedder:
                     samples = sounds.get_array_of_samples()
                     new_audio_data = self._insert_data_to_frame(
                         samples, img_array)
-                    new_sound = sounds._spawn(
-                        new_audio_data)  # pylint: disable=protected-access
+                    new_sound = sounds._spawn(new_audio_data)  # pylint: disable=protected-access
                     new_sound.export(new_location, format='wav')
                     return new_location
             except Exception as excep:  # pylint: disable=broad-except
@@ -196,10 +197,8 @@ class Embedder:
                 left_samples_ori = ori_monos[0].get_array_of_samples()
                 left_samples_watermark = watermark_monos[0].get_array_of_samples(
                 )
-                ca1_ori, cd1_ori, ca2_ori, cd2_ori = self._dwt_two_level(
-                    left_samples_ori)
-                ca1_water, cd1_water, ca2_water, cd2_water = self._dwt_two_level(
-                    left_samples_watermark)
+                ca1_ori, cd1_ori, ca2_ori, cd2_ori = self._dwt_two_level(left_samples_ori) # pylint: disable=unused-variable
+                ca1_water, cd1_water, ca2_water, cd2_water = self._dwt_two_level(left_samples_watermark) # pylint: disable=unused-variable,line-too-long
                 out_image = Embedder._extract_from_cd2(
                     cd2_ori, cd2_water, size, is_rgb)
                 extracted_image = None
@@ -208,21 +207,20 @@ class Embedder:
                     b_arr = b_g_r[0]
                     g_arr = b_g_r[1]
                     r_arr = b_g_r[2]
-                    b = np.reshape(b_arr, (size, size))
-                    g = np.reshape(g_arr, (size, size))
-                    r = np.reshape(r_arr, (size, size))
+                    b = np.reshape(b_arr, (size, size)) # pylint: disable=invalid-name
+                    g = np.reshape(g_arr, (size, size)) # pylint: disable=invalid-name
+                    r = np.reshape(r_arr, (size, size)) # pylint: disable=invalid-name
                     b_extracted = anti_arnold_iteration(
                         b, rounds)
                     g_extracted = anti_arnold_iteration(
                         g, rounds)
                     r_extracted = anti_arnold_iteration(
                         r, rounds)
-                    extracted_image = cv2.merge(
-                        (b_extracted, g_extracted, r_extracted))
+                    extracted_image = cv2.merge((b_extracted, g_extracted, r_extracted)) # pylint: disable=no-member
                 else:
-                    matrix = np.reshape(out_image, (size,size))
-                    extracted_image = anti_arnold_iteration(matrix, rounds)    
-                cv2.imwrite(location,extracted_image)
+                    matrix = np.reshape(out_image, (size, size))
+                    extracted_image = anti_arnold_iteration(matrix, rounds)
+                cv2.imwrite(location, extracted_image) # pylint: disable=no-member
                 return location
             else:
                 is_rgb = True
@@ -242,45 +240,42 @@ class Embedder:
                     b_arr = b_g_r[0]
                     g_arr = b_g_r[1]
                     r_arr = b_g_r[2]
-                    b = np.reshape(b_arr, (size, size))
-                    g = np.reshape(g_arr, (size, size))
-                    r = np.reshape(r_arr, (size, size))
+                    b = np.reshape(b_arr, (size, size)) # pylint: disable=invalid-name
+                    g = np.reshape(g_arr, (size, size)) # pylint: disable=invalid-name
+                    r = np.reshape(r_arr, (size, size)) # pylint: disable=invalid-name
                     b_extracted = anti_arnold_iteration(
                         b, rounds)
                     g_extracted = anti_arnold_iteration(
                         g, rounds)
                     r_extracted = anti_arnold_iteration(
                         r, rounds)
-                    extracted_image = cv2.merge(
-                        (b_extracted, g_extracted, r_extracted))
+                    extracted_image = cv2.merge((b_extracted, g_extracted, r_extracted)) # pylint: disable=no-member
                 else:
-                    matrix = np.reshape(out_image, (size,size))
-                    extracted_image = anti_arnold_iteration(matrix, rounds)    
-                cv2.imwrite(location,extracted_image)
+                    matrix = np.reshape(out_image, (size, size))
+                    extracted_image = anti_arnold_iteration(matrix, rounds)
+                cv2.imwrite(location, extracted_image) # pylint: disable=no-member
                 return location
         except Exception as ex:  # pylint: disable=broad-except
             return str(ex)
 
 if __name__ == '__main__':
-    my_key = 'HELLO'
-    size_key = 256
-    enter = '../sample/Lena.bmp'
+    MY_KEY = 'HELLO'
+    SIZE_KEY = 256
+    ENTER = '../sample/Lena.bmp'
     EMBED = Embedder()
     OUTPUT = EMBED.embed(
         audio_path='../sample/a2002011001-e02.wav',
-        image_path=enter,
-        key=my_key)
-    print(OUTPUT)
+        image_path=ENTER,
+        key=MY_KEY)
     """
     out = embed.embed(
         audio_path='../sample/a2002011001-e02.wav',
         image_path='../sample/black.jpg',
         key='HELLO')
     """
-    hasil = EMBED.extract(
+    HASIL = EMBED.extract(
         watermarked_audio='../sample/a2002011001-e02-watermarked.wav',
         original_audio='../sample/a2002011001-e02.wav',
-        key=my_key,
+        key=MY_KEY,
         location='../sample/extracted-image.jpg',
-        size=size_key)
-    print(hasil)
+        size=SIZE_KEY)
