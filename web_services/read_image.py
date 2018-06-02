@@ -31,6 +31,30 @@ def arnold_iteration(data, n_round):
         out = arnold(out)
     return out
 
+def arnold_rgb_iteration(file_name, n_round):
+    """ N-time arnold with BGR """
+    img = cv2.imread(file_name, 1)
+    if img is not None:
+        b, g, r = cv2.split(img)
+        for i in range(n_round):
+            b = arnold(b)
+            g = arnold(g)
+            r = arnold(r)
+        return b,g,r
+    else:
+        return None, None, None
+
+def anti_arnold_rgb_iteration(b, g, r, n_round):
+    r_new = r
+    g_new = g
+    b_new = b
+    if (r is not None) and (g is not None) and (b is not None):
+        for i in range(n_round):
+            r_new = anti_arnold(r_new)
+            g_new = anti_arnold(g_new)
+            b_new = anti_arnold(b_new)
+    return b_new, g_new, r_new
+
 def anti_arnold_iteration(data, n_round):
     """ N-time anti-arnold transform """
     out = data
@@ -43,26 +67,15 @@ def arnold_from_file(file, n_times):
     img = cv2.imread(file, 0) # pylint: disable=no-member
     out = None
     if img is not None:
-        (thresh, im_bw) = cv2.threshold( # pylint: disable=unused-variable, no-member
-            img,
-            128,
-            255,
-            cv2.THRESH_BINARY | cv2.THRESH_OTSU) # pylint: disable=no-member
-        out = arnold_iteration(im_bw, n_times)
+        out = arnold_iteration(img, n_times)
     return out
-
 
 def anti_arnold_from_file(file, n_times):
     """ Anti Arnold from file"""
     img = cv2.imread(file, 0) # pylint: disable=no-member
     out = None
     if img is not None:
-        (thresh, im_bw) = cv2.threshold( # pylint: disable=unused-variable, no-member
-            img,
-            128,
-            255,
-            cv2.THRESH_BINARY | cv2.THRESH_OTSU) # pylint: disable=no-member
-        out = anti_arnold_iteration(im_bw, n_times)
+        out = anti_arnold_iteration(img, n_times)
     return out
 
 
