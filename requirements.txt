@@ -18,7 +18,6 @@ firebase-admin==2.9.1
 opencv-python==3.4.0.12
 PyWavelets==0.5.2
 pydub==0.21.0
-pyrebase==3.0.27
 django-rest-swagger==2.2.0
 kombu==4.1.0
 billiard==3.5.0.2
