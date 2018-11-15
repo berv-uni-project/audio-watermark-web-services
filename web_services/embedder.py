@@ -144,9 +144,9 @@ class Embedder:
                     # RGB for 16 bit or more
                     img_array = self._processed_image(image_path, key)
                 if img_array is None:
-                    return 'No Image'
+                    raise ValueError('Not have image value')
                 if len(img_array) > sounds.frame_count():
-                    return 'Not Enough to Save'
+                    raise ValueError('Image provided not have enough space')
                 # check audio channels, if stereo just edit left channel
                 if sounds.channels == 2:
                     audio_array = sounds.split_to_mono()
@@ -168,7 +168,7 @@ class Embedder:
                         audio_array[1])
                     new_audio_sound.export(new_location, format='wav')
                     return new_location
-                
+
                 if sounds.channels == 1:
                     samples = sounds.get_array_of_samples()
                     new_audio_data = self._insert_data_to_frame(
@@ -176,8 +176,8 @@ class Embedder:
                     new_sound = sounds._spawn(new_audio_data)  # pylint: disable=protected-access
                     new_sound.export(new_location, format='wav')
                     return new_location
-                
-                return "Unsupported channels"
+
+                raise ValueError('Sound channels not supported')
             except Exception as excep:  # pylint: disable=broad-except
                 return str(excep)
         else:
