@@ -30,7 +30,7 @@ class Embedder:
         j = 0
         output = []
         for data in coef:
-            if j >= 0 and j < len(image):
+            if 0 <= j < len(image):
                 data = data + image[j]
                 j = j + 1
                 output.append(data)
@@ -110,7 +110,7 @@ class Embedder:
         if len(cd2_water) <= len(cd2_ori):
             j = 0
             for i, content in enumerate(cd2_water):
-                if j >= 0 and j < total:
+                if 0 <= j < total:
                     out_image.append(content - cd2_ori[i])
                     j = j + 1
                 else:
@@ -119,7 +119,7 @@ class Embedder:
         else:
             j = 0
             for i, content in enumerate(cd2_ori):
-                if j >= 0 and j < total:
+                if 0 <= j < total:
                     out_image.append(cd2_water[i] - content)
                     j = j + 1
                 else:
@@ -145,7 +145,7 @@ class Embedder:
                     img_array = self._processed_image(image_path, key)
                 if img_array is None:
                     return 'No Image'
-                elif len(img_array) > sounds.frame_count():
+                if len(img_array) > sounds.frame_count():
                     return 'Not Enough to Save'
                 # check audio channels, if stereo just edit left channel
                 if sounds.channels == 2:
@@ -168,13 +168,16 @@ class Embedder:
                         audio_array[1])
                     new_audio_sound.export(new_location, format='wav')
                     return new_location
-                else:
+                
+                if sounds.channels == 1:
                     samples = sounds.get_array_of_samples()
                     new_audio_data = self._insert_data_to_frame(
                         samples, img_array)
                     new_sound = sounds._spawn(new_audio_data)  # pylint: disable=protected-access
                     new_sound.export(new_location, format='wav')
                     return new_location
+                
+                return "Unsupported channels"
             except Exception as excep:  # pylint: disable=broad-except
                 return str(excep)
         else:
