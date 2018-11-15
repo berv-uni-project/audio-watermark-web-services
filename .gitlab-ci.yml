@@ -1,8 +1,3 @@
-# This file is a template, and might need editing before it works on your project.
-# Official language image. Look for the different tagged releases at:
-# https://hub.docker.com/r/library/python/tags/
-image: python:latest
-
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
 variables:
@@ -18,31 +13,58 @@ variables:
 #    - .cache/pip
 #    - venv/
 
-before_script:
-  - python -V               # Print out python version for debugging
-  - pip install virtualenv
-  - virtualenv venv
-  - source venv/bin/activate
-  - pip install safety
-  - pip install pylint-django
-  - pip install pylint-celery
-  - pip install -r requirements.txt
+stages:
+  - test
+  - release
+  - deploy
 
 test:
+  stage: test
+  image: python:latest
+  before_script:
+    - python -V               # Print out python version for debugging
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip install safety
+    - pip install pylint-django
+    - pip install pylint-celery
+    - pip install -r requirements.txt
   script:
-  - safety check
-  - pylint web_services/read_image.py
-  - pylint web_services/embedder.py
-  - pylint --load-plugins pylint_django --load-plugins pylint_django.checkers.db_performance web_services/models.py
-  - pylint --load-plugins pylint_django --load-plugins pylint_django.checkers.db_performance --load-plugins pylint_celery web_services/tasks.py
-  - python3 -m unittest web_services.test_embedder
+    - safety check
+    - pylint web_services/read_image.py
+    - pylint web_services/embedder.py
+    - pylint --load-plugins pylint_django --load-plugins pylint_django.checkers.db_performance web_services/models.py
+    - pylint --load-plugins pylint_django --load-plugins pylint_django.checkers.db_performance --load-plugins pylint_celery web_services/tasks.py
+    - python3 -m unittest web_services.test_embedder
+
+release:
+  stage: release
+  image: docker:latest
+  only:
+    - master
+    - production
+  services:
+    - docker:dind
+  variables:
+    DOCKER_DRIVER: "overlay"
+  before_script:
+    - docker version
+    - docker info
+    - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+  script:
+    - "docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest --pull ."
+    - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest"
+  after_script:
+    - "docker logout ${CI_REGISTRY}"
 
 pages:
   stage: deploy
   script:
-  - echo "deploy"
+    - echo "deploy"
   artifacts:
     paths:
     - public
   only:
-  - master
+    - master
+    - production
