@@ -1,17 +1,29 @@
 # AUDIO WATERMARK WEB SERVICES
 
-# REQUIREMENT
+Version 1.0
+
+## REQUIREMENT
 
 1. Docker
 2. Docker Compose
 
-# BUILD
+## Setup Admin Firebase
 
-```
- $ docker-compose build
- $ docker-compose up
+Define volume like (into web & worker):
+
+`<your.json>:/app/web_services/final-project.json`
+
+## BUILD
+
+```bash
+docker-compose build
+docker-compose up
 ```
 
-# LICENSE
+## LICENSE
 
 MIT
+
+## Creator
+
+Bervianto Leo Pratama
