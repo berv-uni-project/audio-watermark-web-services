@@ -50,7 +50,7 @@ test:
     - docker info
     - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
   script:
-    - "docker build -f Celery.Dockerfile -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:${IMAGE_VERSION} --pull ."
+    - "docker build -f Dockerfile -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:${IMAGE_VERSION} --pull ."
     - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:${IMAGE_VERSION}"
   after_script:
     - "docker logout ${CI_REGISTRY}"
