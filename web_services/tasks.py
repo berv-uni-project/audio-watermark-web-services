@@ -12,14 +12,6 @@ from .embedder import Embedder
 
 LOGGER = get_task_logger(__name__)
 
-CONFIG = {
-    'apiKey': 'AIzaSyCA0Hw7fo3rQXb6zoVSr386HADe1V_VD-U',
-    'authDomain': 'final-project-877fd.firebaseapp.com',
-    'databaseURL': 'https://final-project-877fd.firebaseio.com',
-    'storageBucket': 'final-project-877fd.appspot.com',
-    'serviceAccount': '/app/web_services/final-project.json'
-}
-
 # decorator to avoid code duplication
 def embed_job(func):
     """Decorator that will update Job with result of the function"""

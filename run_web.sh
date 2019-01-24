@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# wait for PSQL server to start
-sleep 10
-
 # for cleaning up, just used, when in developing
 # su -m audiomaster -c "python manage.py reset_migrations web_services"
 # prepare init migration

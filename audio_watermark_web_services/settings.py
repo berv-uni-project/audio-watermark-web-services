@@ -90,7 +90,7 @@ DATABASES = {
         'USER': os.environ.get('DB_ENV_POSTGRES_USER', 'postgres'),
         'PASSWORD': os.environ.get('DB_ENV_POSTGRES_PASSWORD', 'postgres'),
         'HOST': os.environ.get('DB_PORT_5432_TCP_ADDR', 'db'),
-        'PORT': os.environ.get('DB_PORT_5432_TCP_PORT', ''),
+        'PORT': os.environ.get('DB_PORT_5432_TCP_PORT', '5432'),
     },
 }
 

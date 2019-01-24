@@ -1,5 +1,5 @@
 # use base python image with python 3.7
-FROM python:3.6-slim as build
+FROM python:3.7-slim as build
 
 # ENV HTTP_PROXY "http://bervianto.leo:03515380@cache.itb.ac.id:8080"
 # ENV HTTPS_PROXY "http://bervianto.leo:03515380@cache.itb.ac.id:8080"
@@ -10,7 +10,7 @@ FROM python:3.6-slim as build
 # set working directory to /app/
 WORKDIR /app/
 # add requirements.txt to the image
-ADD requirements.txt requirements.txt
+ADD requirements-celery.txt requirements.txt
 
 # install python dependencies
 RUN pip install -r requirements.txt
