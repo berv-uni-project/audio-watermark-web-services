@@ -68,15 +68,3 @@ release_tags:
     - tags
   variables:
     IMAGE_VERSION: $CI_COMMIT_TAG
-
-
-pages:
-  stage: deploy
-  script:
-    - echo "deploy"
-  artifacts:
-    paths:
-    - public
-  only:
-    - master
-    - production
