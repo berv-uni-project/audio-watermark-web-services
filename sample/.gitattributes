@@ -1,0 +1,8 @@
+a2002011001-e02-16kHz.wav filter=lfs diff=lfs merge=lfs -text
+a2002011001-e02-8kHz.wav filter=lfs diff=lfs merge=lfs -text
+a2002011001-e02-watermarked-lena-grey.wav filter=lfs diff=lfs merge=lfs -text
+a2002011001-e02-watermarked-qr.wav filter=lfs diff=lfs merge=lfs -text
+a2002011001-e02-watermarked.wav filter=lfs diff=lfs merge=lfs -text
+a2002011001-e02.wav filter=lfs diff=lfs merge=lfs -text
+classical-watermarked.wav filter=lfs diff=lfs merge=lfs -text
+classical.wav filter=lfs diff=lfs merge=lfs -text
