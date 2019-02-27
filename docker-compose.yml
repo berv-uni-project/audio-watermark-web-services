@@ -1,10 +1,11 @@
-version: '3'
+version: '2'
 
 services:  
   # PostgreSQL database
   db:
     image: postgres:11-alpine
     hostname: db
+    mem_limit: 256m
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -18,12 +19,14 @@ services:
     image: redis:5-alpine3.8
     hostname: redis
     restart: always
+    mem_limit: 512m
 
   # RabbitMQ
   rabbit:
     hostname: rabbit
     image: rabbitmq:3-alpine
     restart: always
+    mem_limit: 512m
     environment:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=audiomaster
@@ -38,6 +41,7 @@ services:
       dockerfile: Dockerfile
     hostname: web
     restart: always
+    mem_limit: 512m
     command: ./run_web.sh
     volumes:
       - ./web_services/final-project.json:/app/web_services/final-project.json  # mount credential
@@ -58,6 +62,7 @@ services:
       dockerfile: Dockerfile
     command: ./run_celery.sh
     restart: always
+    mem_limit: 512m
     volumes:
       - ./web_services/final-project.json:/app/web_services/final-project.json  # mount credential
     links:
