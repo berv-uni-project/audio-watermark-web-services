@@ -198,8 +198,7 @@ class Embedder:
                 ori_monos = ori.split_to_mono()
                 watermark_monos = watermark.split_to_mono()
                 left_samples_ori = ori_monos[0].get_array_of_samples()
-                left_samples_watermark = watermark_monos[0].get_array_of_samples(
-                )
+                left_samples_watermark = watermark_monos[0].get_array_of_samples()
                 ca1_ori, cd1_ori, ca2_ori, cd2_ori = self._dwt_two_level(left_samples_ori) # pylint: disable=unused-variable
                 ca1_water, cd1_water, ca2_water, cd2_water = self._dwt_two_level(left_samples_watermark) # pylint: disable=unused-variable,line-too-long
                 out_image = Embedder._extract_from_cd2(
@@ -232,11 +231,11 @@ class Embedder:
                 left_samples_ori = ori.get_array_of_samples()
                 left_samples_watermark = watermark.get_array_of_samples()
                 ca1_ori, cd1_ori, ca2_ori, cd2_ori = self._dwt_two_level(
-                        left_samples_ori)
+                    left_samples_ori)
                 ca1_water, cd1_water, ca2_water, cd2_water = self._dwt_two_level(
-                        left_samples_watermark)
+                    left_samples_watermark)
                 out_image = Embedder._extract_from_cd2(
-                        cd2_ori, cd2_water, size, is_rgb)
+                    cd2_ori, cd2_water, size, is_rgb)
                 extracted_image = None
                 if is_rgb:
                     b_g_r = np.split(np.array(out_image), 3)
