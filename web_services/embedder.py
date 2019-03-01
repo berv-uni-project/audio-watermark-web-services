@@ -191,7 +191,7 @@ class Embedder:
             watermark = AudioSegment.from_file(watermarked_audio)
             if watermark.channels != ori.channels: # pylint: disable=no-else-return
                 return 'Not Same Audio Channels'
-            if watermark.channels == 2:
+            if watermark.channels == 2: # pylint: disable=no-else-return
                 is_rgb = True
                 if ori.sample_width == 1: # pylint: disable=no-else-return
                     is_rgb = False # 8 bit
