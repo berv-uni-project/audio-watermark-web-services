@@ -191,73 +191,74 @@ class Embedder:
             watermark = AudioSegment.from_file(watermarked_audio)
             if watermark.channels != ori.channels:
                 return 'Not Same Audio Channels'
-            if watermark.channels == 2:
-                is_rgb = True
-                if ori.sample_width == 1: # 8 bit
-                    is_rgb = False
-                ori_monos = ori.split_to_mono()
-                watermark_monos = watermark.split_to_mono()
-                left_samples_ori = ori_monos[0].get_array_of_samples()
-                left_samples_watermark = watermark_monos[0].get_array_of_samples(
-                )
-                ca1_ori, cd1_ori, ca2_ori, cd2_ori = self._dwt_two_level(left_samples_ori) # pylint: disable=unused-variable
-                ca1_water, cd1_water, ca2_water, cd2_water = self._dwt_two_level(left_samples_watermark) # pylint: disable=unused-variable,line-too-long
-                out_image = Embedder._extract_from_cd2(
-                    cd2_ori, cd2_water, size, is_rgb)
-                extracted_image = None
-                if is_rgb:
-                    b_g_r = np.split(np.array(out_image), 3)
-                    b_arr = b_g_r[0]
-                    g_arr = b_g_r[1]
-                    r_arr = b_g_r[2]
-                    b = np.reshape(b_arr, (size, size)) # pylint: disable=invalid-name
-                    g = np.reshape(g_arr, (size, size)) # pylint: disable=invalid-name
-                    r = np.reshape(r_arr, (size, size)) # pylint: disable=invalid-name
-                    b_extracted = anti_arnold_iteration(
-                        b, rounds)
-                    g_extracted = anti_arnold_iteration(
-                        g, rounds)
-                    r_extracted = anti_arnold_iteration(
-                        r, rounds)
-                    extracted_image = cv2.merge((b_extracted, g_extracted, r_extracted)) # pylint: disable=no-member
-                else:
-                    matrix = np.reshape(out_image, (size, size))
-                    extracted_image = anti_arnold_iteration(matrix, rounds)
-                cv2.imwrite(location, extracted_image) # pylint: disable=no-member
-                return location
             else:
-                is_rgb = True
-                if ori.sample_width == 1: # 8 bit
-                    is_rgb = False
-                left_samples_ori = ori.get_array_of_samples()
-                left_samples_watermark = watermark.get_array_of_samples()
-                ca1_ori, cd1_ori, ca2_ori, cd2_ori = self._dwt_two_level(
-                    left_samples_ori)
-                ca1_water, cd1_water, ca2_water, cd2_water = self._dwt_two_level(
-                    left_samples_watermark)
-                out_image = Embedder._extract_from_cd2(
-                    cd2_ori, cd2_water, size, is_rgb)
-                extracted_image = None
-                if is_rgb:
-                    b_g_r = np.split(np.array(out_image), 3)
-                    b_arr = b_g_r[0]
-                    g_arr = b_g_r[1]
-                    r_arr = b_g_r[2]
-                    b = np.reshape(b_arr, (size, size)) # pylint: disable=invalid-name
-                    g = np.reshape(g_arr, (size, size)) # pylint: disable=invalid-name
-                    r = np.reshape(r_arr, (size, size)) # pylint: disable=invalid-name
-                    b_extracted = anti_arnold_iteration(
-                        b, rounds)
-                    g_extracted = anti_arnold_iteration(
-                        g, rounds)
-                    r_extracted = anti_arnold_iteration(
-                        r, rounds)
-                    extracted_image = cv2.merge((b_extracted, g_extracted, r_extracted)) # pylint: disable=no-member
+                if watermark.channels == 2:
+                    is_rgb = True
+                    if ori.sample_width == 1: # 8 bit
+                        is_rgb = False
+                    ori_monos = ori.split_to_mono()
+                    watermark_monos = watermark.split_to_mono()
+                    left_samples_ori = ori_monos[0].get_array_of_samples()
+                    left_samples_watermark = watermark_monos[0].get_array_of_samples(
+                    )
+                    ca1_ori, cd1_ori, ca2_ori, cd2_ori = self._dwt_two_level(left_samples_ori) # pylint: disable=unused-variable
+                    ca1_water, cd1_water, ca2_water, cd2_water = self._dwt_two_level(left_samples_watermark) # pylint: disable=unused-variable,line-too-long
+                    out_image = Embedder._extract_from_cd2(
+                        cd2_ori, cd2_water, size, is_rgb)
+                    extracted_image = None
+                    if is_rgb:
+                        b_g_r = np.split(np.array(out_image), 3)
+                        b_arr = b_g_r[0]
+                        g_arr = b_g_r[1]
+                        r_arr = b_g_r[2]
+                        b = np.reshape(b_arr, (size, size)) # pylint: disable=invalid-name
+                        g = np.reshape(g_arr, (size, size)) # pylint: disable=invalid-name
+                        r = np.reshape(r_arr, (size, size)) # pylint: disable=invalid-name
+                        b_extracted = anti_arnold_iteration(
+                            b, rounds)
+                        g_extracted = anti_arnold_iteration(
+                            g, rounds)
+                        r_extracted = anti_arnold_iteration(
+                            r, rounds)
+                        extracted_image = cv2.merge((b_extracted, g_extracted, r_extracted)) # pylint: disable=no-member
+                    else:
+                        matrix = np.reshape(out_image, (size, size))
+                        extracted_image = anti_arnold_iteration(matrix, rounds)
+                    cv2.imwrite(location, extracted_image) # pylint: disable=no-member
+                    return location
                 else:
-                    matrix = np.reshape(out_image, (size, size))
-                    extracted_image = anti_arnold_iteration(matrix, rounds)
-                cv2.imwrite(location, extracted_image) # pylint: disable=no-member
-                return location
+                    is_rgb = True
+                    if ori.sample_width == 1: # 8 bit
+                        is_rgb = False
+                    left_samples_ori = ori.get_array_of_samples()
+                    left_samples_watermark = watermark.get_array_of_samples()
+                    ca1_ori, cd1_ori, ca2_ori, cd2_ori = self._dwt_two_level(
+                        left_samples_ori)
+                    ca1_water, cd1_water, ca2_water, cd2_water = self._dwt_two_level(
+                        left_samples_watermark)
+                    out_image = Embedder._extract_from_cd2(
+                        cd2_ori, cd2_water, size, is_rgb)
+                    extracted_image = None
+                    if is_rgb:
+                        b_g_r = np.split(np.array(out_image), 3)
+                        b_arr = b_g_r[0]
+                        g_arr = b_g_r[1]
+                        r_arr = b_g_r[2]
+                        b = np.reshape(b_arr, (size, size)) # pylint: disable=invalid-name
+                        g = np.reshape(g_arr, (size, size)) # pylint: disable=invalid-name
+                        r = np.reshape(r_arr, (size, size)) # pylint: disable=invalid-name
+                        b_extracted = anti_arnold_iteration(
+                            b, rounds)
+                        g_extracted = anti_arnold_iteration(
+                            g, rounds)
+                        r_extracted = anti_arnold_iteration(
+                            r, rounds)
+                        extracted_image = cv2.merge((b_extracted, g_extracted, r_extracted)) # pylint: disable=no-member
+                    else:
+                        matrix = np.reshape(out_image, (size, size))
+                        extracted_image = anti_arnold_iteration(matrix, rounds)
+                    cv2.imwrite(location, extracted_image) # pylint: disable=no-member
+                    return location
         except Exception as ex:  # pylint: disable=broad-except
             return str(ex)
 
