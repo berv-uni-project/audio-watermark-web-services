@@ -27,6 +27,7 @@ test:
     - pip install virtualenv
     - virtualenv venv
     - source venv/bin/activate
+    - pip install --upgrade pip
     - pip install safety
     - pip install pylint-django
     - pip install pylint-celery
