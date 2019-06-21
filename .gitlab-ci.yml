@@ -23,13 +23,7 @@ test:
   image: python:3.7-alpine
   before_script:
     - python -V               # Print out python version for debugging
-    - apk update && apk add --no-cache \
-      gcc \
-      python3-dev \
-      musl-dev \
-      postgresql-dev \
-      ffmpeg \
-      libsndfile-dev
+    - apk update && apk add --no-cache gcc python3-dev musl-dev postgresql-dev ffmpeg libsndfile-dev
     - pip install virtualenv
     - virtualenv venv
     - source venv/bin/activate
