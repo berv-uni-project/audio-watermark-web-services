@@ -21,7 +21,8 @@ stages:
 test:
   stage: test
   image: python:latest-alpine
-  install:
+  before_script:
+    - python -V               # Print out python version for debugging
     - apk update && apk add --no-cache \
       gcc \
       python3-dev \
@@ -29,8 +30,6 @@ test:
       postgresql-dev \
       ffmpeg \
       libsndfile-dev
-  before_script:
-    - python -V               # Print out python version for debugging
     - pip install virtualenv
     - virtualenv venv
     - source venv/bin/activate
