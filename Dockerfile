@@ -7,12 +7,11 @@ FROM python:3.7-alpine as build
 # set working directory to /app/
 WORKDIR /app/
 RUN apk update && apk add --no-cache \
-    gcc \
-    python3-dev \
-    musl-dev \
-    postgresql-dev \
-    ffmpeg \
-    libsndfile-dev
+    build-base wget \
+    freetype-dev libpng-dev openblas-dev \
+    gcc python3-dev \
+    musl-dev postgresql-dev \
+    ffmpeg libsndfile-dev
 # add requirements.txt to the image
 ADD requirements.txt requirements.txt
 # install python dependencies
