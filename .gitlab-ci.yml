@@ -20,7 +20,15 @@ stages:
 
 test:
   stage: test
-  image: python:latest
+  image: python:latest-alpine
+  install:
+    - apk update && apk add --no-cache \
+      gcc \
+      python3-dev \
+      musl-dev \
+      postgresql-dev \
+      ffmpeg \
+      libsndfile-dev
   before_script:
     - python -V               # Print out python version for debugging
     - pip install virtualenv
