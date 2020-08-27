@@ -20,7 +20,7 @@ stages:
 
 test:
   stage: test
-  image: python:3.6-alpine
+  image: python:3.8-alpine
   before_script:
     - python -V               # Print out python version for debugging
     - apk update && apk add --no-cache build-base wget gcc python3-dev musl-dev postgresql-dev ffmpeg libsndfile-dev freetype-dev libpng-dev openblas-dev 
