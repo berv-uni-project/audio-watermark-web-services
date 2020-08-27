@@ -94,7 +94,7 @@ class Embedder:
             g_arr = np.reshape(g, g.shape[0] * g.shape[1])
             temp_1 = np.append(b_arr, g_arr)
             out_np = np.append(temp_1, r_arr)
-            out = [x for x in out_np]
+            out = list(out_np)
         return out
 
     @staticmethod

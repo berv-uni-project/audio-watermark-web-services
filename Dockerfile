@@ -6,7 +6,7 @@ RUN apt-get update && apt-get -y dist-upgrade && apt install -y \
     wget \
     libpng-dev \
     gcc python3-dev \
-    musl-dev postgresql \
+    musl-dev postgresql-client \
     ffmpeg libsndfile-dev \
     && rm -rf /var/lib/apt/lists/*
 # add requirements.txt to the image
