@@ -1,5 +1,6 @@
 """ Models Data for Database """
 from django.db import models
+from .tasks import TASK_MAPPING
 
 class Embed(models.Model):
     """Class describing a embed job"""
@@ -30,11 +31,10 @@ class Embed(models.Model):
     audio_output = models.TextField(null=True)
     result = models.TextField(null=True)
 
-    def save(self, *args, **kwargs): # pylint: disable=arguments-differ
+    def save(self, *args, **kwargs): # pylint: disable=W0222
         """Save model and if job is in pending state, schedule it"""
-        super(Embed, self).save(*args, **kwargs)
+        super(Embed, self).save(*args, **kwargs) # pylint: disable=R1725
         if self.status == 'pending':
-            from .tasks import TASK_MAPPING
             task = TASK_MAPPING[self.method_option]
             task.delay(
                 job_id=self.id,
@@ -75,11 +75,10 @@ class Extract(models.Model):
     image_output = models.TextField(null=True)
     result = models.TextField(null=True)
 
-    def save(self, *args, **kwargs): # pylint: disable=arguments-differ
+    def save(self, *args, **kwargs): # pylint: disable=W0222
         """Save model and if job is in pending state, schedule it"""
-        super(Extract, self).save(*args, **kwargs)
+        super(Extract, self).save(*args, **kwargs) # pylint: disable=R1725
         if self.status == 'pending':
-            from .tasks import TASK_MAPPING
             task = TASK_MAPPING[self.method_option]
             task.delay(job_id=self.id,
                        watermarked_audio_input=self.watermarked_audio_input,
