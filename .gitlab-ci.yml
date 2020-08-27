@@ -26,7 +26,7 @@ test:
   before_script:
     - python -V               # Print out python version for debugging
     - pip --version # print pip version
-    - apk update && apk add --no-cache build-base wget gcc python3-dev musl-dev postgresql-dev ffmpeg libsndfile-dev freetype-dev libpng-dev openblas-dev 
+    - sudo apt update && sudo apt install -y build-base wget gcc python3-dev musl-dev postgresql-dev ffmpeg libsndfile-dev freetype-dev libpng-dev openblas-dev 
     - pip install virtualenv
     - virtualenv venv
     - source venv/bin/activate
