@@ -20,7 +20,7 @@ stages:
 
 test:
   stage: test
-  image: python:3.8-alpine
+  image: python:3.8
   variables:
     CI_BUILD: 1
   before_script:
@@ -31,7 +31,6 @@ test:
     - virtualenv venv
     - source venv/bin/activate
     - pip install --upgrade pip
-    - pip install wheel
     - pip install safety
     - pip install pylint-django
     - pip install pylint-celery
