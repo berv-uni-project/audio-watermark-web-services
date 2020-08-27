@@ -2,11 +2,11 @@
 FROM python:3.8 as build
 # set working directory to /app/
 WORKDIR /app/
-RUN apt update && apt -y dist-upgrade && apt install -y \
-    build-base wget \
-    freetype-dev libpng-dev openblas-dev \
+RUN apt-get update && apt-get -y dist-upgrade && apt install -y \
+    wget \
+    libpng-dev \
     gcc python3-dev \
-    musl-dev postgresql-dev \
+    musl-dev postgresql \
     ffmpeg libsndfile-dev \
     && rm -rf /var/lib/apt/lists/*
 # add requirements.txt to the image
