@@ -21,6 +21,8 @@ stages:
 test:
   stage: test
   image: python:3.8-alpine
+  variables:
+    CI_BUILD: 1
   before_script:
     - python -V               # Print out python version for debugging
     - pip --version # print pip version
