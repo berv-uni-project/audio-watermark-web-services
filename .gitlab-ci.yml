@@ -26,7 +26,7 @@ test:
   before_script:
     - python -V               # Print out python version for debugging
     - pip --version # print pip version
-    - apt-get update && apt-get install -y wget gcc python3-dev musl-dev postgresql ffmpeg libsndfile-dev libpng-dev
+    - apt-get update && apt-get install -y wget gcc python3-dev musl-dev postgresql-client ffmpeg libsndfile-dev libpng-dev
     - pip install virtualenv
     - virtualenv venv
     - source venv/bin/activate
@@ -39,8 +39,8 @@ test:
     - safety check
     - pylint web_services/read_image.py
     - pylint web_services/embedder.py
-    - pylint --load-plugins pylint_django --load-plugins pylint_django.checkers.db_performance web_services/models.py
-    - pylint --load-plugins pylint_django --load-plugins pylint_django.checkers.db_performance --load-plugins pylint_celery web_services/tasks.py
+    - pylint --load-plugins pylint_django web_services/models.py
+    - pylint --load-plugins pylint_django --load-plugins pylint_celery web_services/tasks.py
     - python3 -m unittest web_services.test_embedder
 
 .release:
