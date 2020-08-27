@@ -26,7 +26,7 @@ test:
   before_script:
     - python -V               # Print out python version for debugging
     - pip --version # print pip version
-    - apt-get update && apt-get install -y wget gcc python3-dev musl-dev postgresql-client ffmpeg libsndfile-dev libpng-dev
+    - apt-get update && apt-get install -y wget gcc python3-dev musl-dev postgresql ffmpeg libsndfile-dev libpng-dev
     - pip install virtualenv
     - virtualenv venv
     - source venv/bin/activate
