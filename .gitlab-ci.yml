@@ -20,9 +20,10 @@ stages:
 
 test:
   stage: test
-  image: python:3.8
+  image: python:3.8-slim
   variables:
     CI_BUILD: 1
+    DJANGO_SETTINGS_MODULE: audio_watermark_web_services.settings
   before_script:
     - python -V               # Print out python version for debugging
     - pip --version # print pip version
