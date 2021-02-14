@@ -64,7 +64,7 @@ test:
 release_production:
   extends: .release
   only:
-    - production
+    - master
   variables:
     IMAGE_VERSION: "latest"
 
