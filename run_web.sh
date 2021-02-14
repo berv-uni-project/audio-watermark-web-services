@@ -5,6 +5,6 @@
 # prepare init migration
 su -m audiomaster -c "python manage.py makemigrations web_services"
 # migrate db, so we have the latest db schema
-su -m audiomaster -c "python manage.py migrate"  
-# start development server on public ip interface, on port 8000
-su -m audiomaster -c "python manage.py runserver 0.0.0.0:8000"  
+su -m audiomaster -c "python manage.py migrate"
+# run with gunicorn
+su -m audiomaster -c "gunicorn audio_watermark_web_services"

@@ -1,9 +1,9 @@
 version: '2'
 
-services:  
+services:
   # PostgreSQL database
   db:
-    image: postgres:11-alpine
+    image: postgres:13-alpine
     hostname: db
     mem_limit: 256m
     restart: always
@@ -16,7 +16,7 @@ services:
 
   # Redis
   redis:
-    image: redis:5-alpine3.8
+    image: redis:6-alpine
     hostname: redis
     restart: always
     mem_limit: 512m
