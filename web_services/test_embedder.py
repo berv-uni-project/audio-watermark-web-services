@@ -1,11 +1,11 @@
-from .embedder import Embedder
+from web_services.embedder import Embedder
 import unittest
 import os
 
 class TestEmbedder(unittest.TestCase):
 
     def test_embed(self):
-        audio_location = 'sample/classical.wav'
+        audio_location = 'sample/sample1.wav'
         image_input = 'sample/get-frame.png'
         my_key = 'HELLO'
         embed = Embedder()
@@ -17,8 +17,8 @@ class TestEmbedder(unittest.TestCase):
     def test_extract(self):
         audio_loc = 'sample/extracted-image.jpg'
         embed = Embedder()
-        result = embed.extract(watermarked_audio='sample/classical-watermarked.wav',
-                  original_audio='sample/classical.wav', key='HELLO', location=audio_loc, size=300)
+        result = embed.extract(watermarked_audio='sample/sample1-watermarked.wav',
+                  original_audio='sample/sample1.wav', key='HELLO', location=audio_loc, size=300)
         self.assertEqual(result, audio_loc)
 
 if __name__ == '__main__':
