@@ -1,6 +1,6 @@
 """ Models Data for Database """
 from django.db import models
-from .tasks import TASK_MAPPING
+from web_services.tasks import TASK_MAPPING
 
 class Embed(models.Model):
     """Class describing a embed job"""

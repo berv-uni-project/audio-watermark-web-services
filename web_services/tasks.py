@@ -7,8 +7,8 @@ from celery.utils.log import get_task_logger
 import firebase_admin
 from firebase_admin import credentials, auth, storage
 from audio_watermark_web_services.celeryconf import app
-from .models import Embed, Extract
-from .embedder import Embedder
+from web_services.embedder import Embedder
+import web_services.models
 
 LOGGER = get_task_logger(__name__)
 
@@ -20,7 +20,7 @@ def embed_job(func):
     @wraps(func)
     def wrapper(job_id, *args, **kwargs):
         """ Wrapper to Call Function"""
-        job = Embed.objects.get(id=job_id)
+        job = models.Embed.objects.get(id=job_id)
         job.status = 'started'
         job.save()
         try:
@@ -50,7 +50,7 @@ def extract_job(fun):
     @wraps(fun)
     def wrapper(job_id, *args, **kwargs):
         """ Wrapper to Call Function"""
-        job = Extract.objects.get(id=job_id)
+        job = models.Extract.objects.get(id=job_id)
         job.status = 'started'
         job.save()
         try:
