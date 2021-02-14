@@ -20,7 +20,7 @@ def embed_job(func):
     @wraps(func)
     def wrapper(job_id, *args, **kwargs):
         """ Wrapper to Call Function"""
-        job = models.Embed.objects.get(id=job_id)
+        job = web_services.models.Embed.objects.get(id=job_id)
         job.status = 'started'
         job.save()
         try:
@@ -50,7 +50,7 @@ def extract_job(fun):
     @wraps(fun)
     def wrapper(job_id, *args, **kwargs):
         """ Wrapper to Call Function"""
-        job = models.Extract.objects.get(id=job_id)
+        job = web_services.models.Extract.objects.get(id=job_id)
         job.status = 'started'
         job.save()
         try:
