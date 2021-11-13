@@ -10,7 +10,7 @@ redis==3.5.3
 firebase-admin==4.3.0
 opencv-python-headless==4.4.0.42
 PyWavelets==1.1.1
-pydub==0.24.1
+pydub==0.25.1
 django-rest-swagger==2.2.0
 kombu==5.2.1
 billiard==3.6.3.0
