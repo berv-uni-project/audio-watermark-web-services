@@ -20,7 +20,7 @@ stages:
 
 test:
   stage: test
-  image: python:3.8-slim
+  image: python:3.10-slim
   variables:
     CI_BUILD: 1
     DJANGO_SETTINGS_MODULE: audio_watermark_web_services.settings
