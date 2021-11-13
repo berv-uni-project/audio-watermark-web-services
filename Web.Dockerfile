@@ -1,5 +1,5 @@
 # use base python image with python 3.8
-FROM python:3.10-slim as build
+FROM python:3.9-slim as build
 # ENV HTTP_PROXY "http://bervianto.leo:03515380@cache.itb.ac.id:8080"
 # ENV HTTPS_PROXY "http://bervianto.leo:03515380@cache.itb.ac.id:8080"
 # ENV FTP_PROXY "http://bervianto.leo:03515380@cache.itb.ac.id:8080"
