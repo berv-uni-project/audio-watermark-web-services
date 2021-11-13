@@ -8,6 +8,8 @@ RUN apt-get update && apt-get -y dist-upgrade && apt install -y \
     gcc python3-dev \
     musl-dev postgresql-client \
     ffmpeg libsndfile-dev \
+    gfortran \
+    libopenblas-dev liblapack-dev \
     && rm -rf /var/lib/apt/lists/*
 # add requirements.txt to the image
 ADD requirements.txt requirements.txt
