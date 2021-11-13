@@ -43,8 +43,8 @@ services:
     restart: always
     mem_limit: 512m
     command: ./run_web.sh
-    volumes:
-      - ./web_services/final-project.json:/app/web_services/final-project.json  # mount credential
+    # volumes:
+    #  - ./web_services/final-project.json:/app/web_services/final-project.json  # mount credential
     ports:
       - "8000:8000"
     # set up links so that web knows about db, rabbit and redis
@@ -63,8 +63,8 @@ services:
     command: ./run_celery.sh
     restart: always
     mem_limit: 512m
-    volumes:
-      - ./web_services/final-project.json:/app/web_services/final-project.json  # mount credential
+    # volumes:
+    #  - ./web_services/final-project.json:/app/web_services/final-project.json  # mount credential
     links:
       - db
       - rabbit
