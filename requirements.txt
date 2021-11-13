@@ -20,4 +20,4 @@ PyWavelets==1.1.1
 pydub==0.25.1
 kombu==5.2.1
 billiard==3.6.4.0
-gunicorn==20.0.4
+gunicorn==20.1.0
