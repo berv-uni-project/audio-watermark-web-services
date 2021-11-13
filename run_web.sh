@@ -6,5 +6,7 @@
 su -m audiomaster -c "python manage.py makemigrations web_services"
 # migrate db, so we have the latest db schema
 su -m audiomaster -c "python manage.py migrate"
+# collect static
+su -m audiomaster -c "python manage.py collectstatic"
 # run with gunicorn
-su -m audiomaster -c "gunicorn audio_watermark_web_services"
+su -m audiomaster -c "gunicorn -b 0.0.0.0 audio_watermark_web_services.wsgi:application"

@@ -23,6 +23,7 @@ RUN apt-get update && apt-get -y dist-upgrade && apt install -y \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=build /app/deps /app/deps
 ENV PYTHONPATH="${PYTHONPATH}:/app/deps"
+ENV PATH="${PATH}:/app/deps/bin"
 COPY . .
 # create unprivileged user
 RUN adduser --disabled-password --gecos '' audiomaster
