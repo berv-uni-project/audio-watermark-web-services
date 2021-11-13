@@ -1,0 +1,42 @@
+name: Django CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    env:
+      CI_BUILD: 1
+      DJANGO_SETTINGS_MODULE: audio_watermark_web_services.settings
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.8, 3.9, 3.10]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Specific Ubuntu Packages
+      run: apt-get update && apt-get install -y wget gcc python3-dev musl-dev postgresql-client ffmpeg libsndfile-dev libpng-dev
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install safety
+        python -m pip install pylint-django
+        python -m pip install pylint-celery
+        python -m pip install -r requirements.txt
+    - name: Run Security Test
+      run: safety check
+    - name: Lint
+      run: |
+        pylint web_services/read_image.py
+        pylint web_services/embedder.py
+        pylint --load-plugins pylint_django web_services/models.py
+        pylint --load-plugins pylint_django --load-plugins pylint_celery web_services/tasks.py
+    - name: Run Tests
+      run: |
+        python -m unittest web_services.test_embedder
