@@ -1,0 +1,5 @@
+sample/
+docs/
+.gitignore
+.gitlab-ci.yml
+docker-compose.yml
