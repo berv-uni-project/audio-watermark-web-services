@@ -35,7 +35,7 @@ def embed_job(func):
         except Exception as ex: # pylint: disable=broad-except
             exc_type, exc_obj, exc_tb = sys.exc_info() # pylint: disable=unused-variable
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            message = '{}:{}:{}'.format(exc_type, fname, exc_tb.tb_lineno)
+            message = f'{exc_type}:{fname}:{exc_tb.tb_lineno}'
             LOGGER.info(str(ex))
             LOGGER.info(message)
             job.result = message
@@ -65,7 +65,7 @@ def extract_job(fun):
         except Exception as ex: # pylint: disable=broad-except
             exc_type, exc_obj, exc_tb = sys.exc_info() # pylint: disable=unused-variable
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            message = '{}:{}:{}'.format(exc_type, fname, exc_tb.tb_lineno)
+            message = f'{exc_type}:{fname}:{exc_tb.tb_lineno}'
             LOGGER.info(str(ex))
             LOGGER.info(message)
             job.result = message
@@ -91,10 +91,10 @@ def embed_1(job_id, image_input, audio_input, key, accessToken, method_option): 
             default_app = firebase_admin.get_app()
         bucket = storage.bucket()
         decoded_token = auth.verify_id_token(accessToken, app=default_app)
-        with tempfile.TemporaryDirectory(prefix='{}-'.format(job_id)) as tmpdirname:
+        with tempfile.TemporaryDirectory(prefix=f'{job_id}-') as tmpdirname:
             uid = decoded_token['uid']
-            file_audio = '{}/{}.wav'.format(tmpdirname, job_id)
-            file_image = '{}/{}.jpg'.format(tmpdirname, job_id)
+            file_audio = f'{tmpdirname}/{job_id}.wav'
+            file_image = f'{tmpdirname}/{job_id}.jpg'
             blob = bucket.blob(audio_input)
             blob.download_to_filename(file_audio)
             blob1 = bucket.blob(image_input)
@@ -104,7 +104,7 @@ def embed_1(job_id, image_input, audio_input, key, accessToken, method_option): 
                 audio_path=file_audio,
                 image_path=file_image,
                 key=key)
-            target = '{}/{}-watermarked.wav'.format(uid, job_id)
+            target = f'{uid}/{job_id}-watermarked.wav'
             blob_target = bucket.blob(target)
             blob_target.upload_from_filename(finished)
             return target, uid
@@ -127,13 +127,11 @@ def extract_1(job_id, watermarked_audio_input, original_audio_input, size, key, 
             default_app = firebase_admin.get_app()
         bucket = storage.bucket()
         decoded_token = auth.verify_id_token(accessToken, app=default_app)
-        with tempfile.TemporaryDirectory(prefix='{}-'.format(job_id)) as tmpdirname:
+        with tempfile.TemporaryDirectory(prefix=f'{job_id}-') as tmpdirname:
             uid = decoded_token['uid']
-            file_audio_watermarked = '{}/{}-watermarked.wav'.format(
-                tmpdirname, job_id)
-            file_audio_original = '{}/{}-original.wav'.format(
-                tmpdirname, job_id)
-            temp_loc_target = '{}/{}-extracted.jpg'.format(tmpdirname, job_id)
+            file_audio_watermarked = f'{tmpdirname}/{job_id}-watermarked.wav'
+            file_audio_original = f'{tmpdirname}/{job_id}-original.wav'
+            temp_loc_target = f'{tmpdirname}/{job_id}-extracted.jpg'
             blob = bucket.blob(watermarked_audio_input)
             blob.download_to_filename(file_audio_watermarked)
             blob1 = bucket.blob(original_audio_input)
@@ -144,7 +142,7 @@ def extract_1(job_id, watermarked_audio_input, original_audio_input, size, key, 
                                         key=key,
                                         location=temp_loc_target,
                                         size=int(size))
-            target = '{}/{}-extracted.jpg'.format(uid, job_id)
+            target = f'{uid}/{job_id}-extracted.jpg'
             blob2 = bucket.blob(target)
             blob2.upload_from_filename(finished)
             return target, uid
