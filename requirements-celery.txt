@@ -13,4 +13,4 @@ PyWavelets==1.2.0
 pydub==0.25.1
 django-rest-swagger==2.2.0
 kombu==5.2.2
-billiard==3.6.3.0
+billiard==3.6.4.0
