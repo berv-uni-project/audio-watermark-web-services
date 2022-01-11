@@ -40,3 +40,8 @@ jobs:
     - name: Run Tests
       run: |
         python -m unittest web_services.test_embedder
+    - name: Run Tests
+      env:
+        SECRET_KEY: any-key-just-for-test
+      run: |
+        python manage.py test
