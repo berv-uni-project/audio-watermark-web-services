@@ -30,6 +30,7 @@ jobs:
         python -m pip install pylint-celery
         python -m pip install -r requirements.txt
     - name: Run Security Test
+      continue-on-error: true
       run: safety check
     - name: Lint
       run: |
