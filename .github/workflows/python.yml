@@ -25,13 +25,9 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install safety
         python -m pip install pylint-django
         python -m pip install pylint-celery
         python -m pip install -r requirements.txt
-    - name: Run Security Test
-      continue-on-error: true
-      run: safety check
     - name: Lint
       run: |
         pylint web_services/read_image.py
