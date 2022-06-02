@@ -1,7 +1,5 @@
 version: '2'
-
 services:
-  # PostgreSQL database
   db:
     image: postgres:13-alpine
     hostname: db
@@ -13,15 +11,11 @@ services:
       - POSTGRES_DB=postgres
     ports:
       - "15432:5432"
-
-  # Redis
   redis:
     image: redis:6-alpine
     hostname: redis
     restart: always
     mem_limit: 512m
-
-  # RabbitMQ
   rabbit:
     hostname: rabbit
     image: rabbitmq:3-alpine
@@ -33,8 +27,6 @@ services:
     ports:
       - "5672:5672"  # we forward this port because it's useful for debugging
       - "15672:15672"  # here, we can access rabbitmq management plugin
-
-  # Django web server
   web:
     build:
       context: .
@@ -47,15 +39,12 @@ services:
     #  - ./web_services/final-project.json:/app/web_services/final-project.json  # mount credential
     ports:
       - "8000:8000"
-    # set up links so that web knows about db, rabbit and redis
     links:
       - db
       - rabbit
       - redis
     depends_on:
       - db
-
-  # Celery worker
   worker:
     build:
       context: .
