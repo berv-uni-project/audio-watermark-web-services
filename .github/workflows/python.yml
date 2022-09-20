@@ -13,7 +13,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: ['3.10']
+        python-version: ['3.9', '3.10']
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -28,10 +28,12 @@ jobs:
         python -m pip install pylint-django
         python -m pip install pylint-celery
         python -m pip install -r requirements.txt
-    - name: Lint
+    - name: Lint Source
       run: |
         pylint web_services/read_image.py
         pylint web_services/embedder.py
+    - name: Lint Django
+      run: |
         pylint --load-plugins pylint_django web_services/models.py
         pylint --load-plugins pylint_django --load-plugins pylint_celery web_services/tasks.py
     - name: Run Tests
