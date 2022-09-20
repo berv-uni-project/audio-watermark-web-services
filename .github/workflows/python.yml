@@ -28,10 +28,12 @@ jobs:
         python -m pip install pylint-django
         python -m pip install pylint-celery
         python -m pip install -r requirements.txt
-    - name: Lint
+    - name: Lint Source
       run: |
         pylint web_services/read_image.py
         pylint web_services/embedder.py
+    - name: Lint Django
+      run: |
         pylint --load-plugins pylint_django web_services/models.py
         pylint --load-plugins pylint_django --load-plugins pylint_celery web_services/tasks.py
     - name: Run Tests
