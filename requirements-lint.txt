@@ -1,0 +1,2 @@
+pylint-django==2.4.4
+pylint-celery==0.3
