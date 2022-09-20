@@ -1,2 +1,3 @@
+pylint==2.14.5
 pylint-django==2.4.4
 pylint-celery==0.3
