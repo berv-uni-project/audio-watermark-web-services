@@ -8,7 +8,7 @@ eyed3==0.9.7
 pandas==1.5.3
 redis==4.5.1
 firebase-admin==6.1.0
-opencv-python-headless==4.7.0.68
+opencv-python-headless==4.7.0.72
 PyWavelets==1.4.1
 pydub==0.25.1
 django-rest-swagger==2.2.0
