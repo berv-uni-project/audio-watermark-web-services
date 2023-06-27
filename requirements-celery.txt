@@ -6,7 +6,7 @@ numpy==1.25.0
 scipy==1.11.0
 eyed3==0.9.7
 pandas==2.0.2
-redis==4.5.5
+redis==4.6.0
 firebase-admin==6.2.0
 opencv-python-headless==4.7.0.72
 PyWavelets==1.4.1
