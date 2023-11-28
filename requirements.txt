@@ -18,7 +18,7 @@ firebase-admin==6.2.0
 opencv-python-headless==4.8.1.78
 PyWavelets==1.4.1
 pydub==0.25.1
-kombu==5.3.3
+kombu==5.3.4
 billiard==4.2.0
 gunicorn==21.2.0
 whitenoise==6.6.0
