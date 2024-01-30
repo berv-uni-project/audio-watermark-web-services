@@ -7,7 +7,7 @@ scipy==1.12.0
 eyed3==0.9.7
 pandas==2.2.0
 redis==5.0.1
-firebase-admin==6.3.0
+firebase-admin==6.4.0
 opencv-python-headless==4.9.0.80
 PyWavelets==1.5.0
 pydub==0.25.1
