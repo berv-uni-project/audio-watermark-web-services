@@ -12,5 +12,5 @@ opencv-python-headless==4.9.0.80
 PyWavelets==1.6.0
 pydub==0.25.1
 django-rest-swagger==2.2.0
-kombu==5.3.5
+kombu==5.3.6
 billiard==4.2.0
