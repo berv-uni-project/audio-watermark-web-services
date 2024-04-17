@@ -20,5 +20,5 @@ PyWavelets==1.6.0
 pydub==0.25.1
 kombu==5.3.6
 billiard==4.2.0
-gunicorn==21.2.0
+gunicorn==22.0.0
 whitenoise==6.6.0
