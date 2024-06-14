@@ -1,5 +1,5 @@
 # use base python image with python 3.8
-FROM python:3.12.3-slim as build
+FROM python:3.12.4-slim as build
 # set working directory to /app/
 WORKDIR /app
 RUN apt-get update && apt-get -y dist-upgrade && apt install -y \
@@ -16,7 +16,7 @@ ADD requirements.txt requirements.txt
 # install python dependencies
 RUN pip install --target=/app/deps -r requirements.txt
 
-FROM python:3.12.3-slim as runner
+FROM python:3.12.4-slim as runner
 WORKDIR /app
 RUN apt-get update && apt-get -y dist-upgrade && apt install -y \
     ffmpeg \
