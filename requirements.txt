@@ -15,7 +15,7 @@ scipy==1.13.1
 eyed3==0.9.7
 pandas==2.2.2
 firebase-admin==6.5.0
-opencv-python-headless==4.10.0.82
+opencv-python-headless==4.10.0.84
 PyWavelets==1.6.0
 pydub==0.25.1
 kombu==5.3.7
