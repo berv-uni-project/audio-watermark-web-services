@@ -15,7 +15,7 @@ jobs:
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: '3.11'
     - name: Install Specific Ubuntu Packages
       run: sudo apt-get update && sudo apt-get install -y wget gcc python3-dev musl-dev postgresql-client ffmpeg libsndfile-dev libpng-dev
     - name: Install Dependencies
