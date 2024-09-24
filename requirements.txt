@@ -19,6 +19,6 @@ opencv-python-headless==4.10.0.84
 PyWavelets==1.7.0
 pydub==0.25.1
 kombu==5.4.1
-billiard==4.2.0
+billiard==4.2.1
 gunicorn==23.0.0
 whitenoise==6.7.0
