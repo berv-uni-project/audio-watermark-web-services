@@ -183,7 +183,7 @@ class Embedder:
         else:
             return 'Unsupported Format'
 
-    def extract(self, watermarked_audio=None, original_audio=None, key=None, location=None, size=0):  # pylint: disable=too-many-arguments,too-many-locals, too-many-branches, too-many-statements
+    def extract(self, watermarked_audio=None, original_audio=None, key=None, location=None, size=0):  # pylint: disable=too-many-arguments,too-many-positional-arguments, too-many-locals, too-many-branches, too-many-statements
         """ Extract Method Main """
         try:  # pylint: disable=too-many-nested-blocks
             rounds = self._key_to_integer(key)
