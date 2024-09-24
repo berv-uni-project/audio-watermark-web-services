@@ -78,7 +78,7 @@ def extract_job(fun):
 
 @app.task
 @embed_job
-def embed_1(job_id, image_input, audio_input, key, accessToken, method_option): # pylint: disable=invalid-name, too-many-arguments, too-many-locals
+def embed_1(job_id, image_input, audio_input, key, accessToken, method_option): # pylint: disable=invalid-name, too-many-arguments, too-many-positional-arguments, too-many-locals
     """Embedding Task Mode 1"""
     if method_option == 'embed_1':
         default_app = None
@@ -114,7 +114,7 @@ def embed_1(job_id, image_input, audio_input, key, accessToken, method_option): 
 
 @app.task
 @extract_job
-def extract_1(job_id, watermarked_audio_input, original_audio_input, size, key, accessToken, method_option): # pylint: disable=line-too-long, invalid-name, too-many-arguments, too-many-locals
+def extract_1(job_id, watermarked_audio_input, original_audio_input, size, key, accessToken, method_option): # pylint: disable=line-too-long, invalid-name, too-many-arguments, too-many-positional-arguments, too-many-locals
     """Extracting Mode 1"""
     if method_option == 'extract_1':
         default_app = None
