@@ -12,6 +12,7 @@ jobs:
       DJANGO_SETTINGS_MODULE: audio_watermark_web_services.settings
     strategy:
       max-parallel: 4
+      fail-fast: false
       matrix:
         python-version: ['3.11', '3.12']
     steps:
