@@ -12,8 +12,9 @@ jobs:
       DJANGO_SETTINGS_MODULE: audio_watermark_web_services.settings
     strategy:
       max-parallel: 4
+      fail-fast: false
       matrix:
-        python-version: ['3.11']
+        python-version: ['3.11', '3.12']
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
@@ -25,6 +26,7 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
+        python -m pip install --upgrade setuptools
         python -m pip install -r requirements-lint.txt
         python -m pip install -r requirements.txt
     - name: Lint Source
