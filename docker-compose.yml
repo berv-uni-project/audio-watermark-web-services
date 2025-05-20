@@ -18,7 +18,7 @@ services:
     mem_limit: 512m
   rabbit:
     hostname: rabbit
-    image: rabbitmq:3-alpine
+    image: rabbitmq:4-alpine
     restart: always
     mem_limit: 512m
     environment:
