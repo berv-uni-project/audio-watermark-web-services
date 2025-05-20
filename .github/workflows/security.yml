@@ -25,4 +25,4 @@ jobs:
         python -m pip install safety
         python -m pip install -r requirements.txt
     - name: Run Security Test
-      run: safety check
+      run: safety scan
