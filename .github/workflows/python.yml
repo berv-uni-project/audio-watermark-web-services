@@ -6,14 +6,14 @@ on:
     branches: [ main ]
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       CI_BUILD: 1
       DJANGO_SETTINGS_MODULE: audio_watermark_web_services.settings
     strategy:
       max-parallel: 4
       matrix:
-        python-version: ['3.11']
+        python-version: ['3.11', '3.12', '3.13']
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
