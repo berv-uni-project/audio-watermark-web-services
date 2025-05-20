@@ -12,7 +12,7 @@ services:
     ports:
       - "15432:5432"
   redis:
-    image: redis:6-alpine
+    image: redis:8-alpine
     hostname: redis
     restart: always
     mem_limit: 512m
