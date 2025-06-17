@@ -4,7 +4,7 @@ sympy==1.13.3
 nose==1.3.7
 numpy==2.2.4
 scipy==1.15.2
-eyed3==0.9.7
+eyed3==0.9.8
 pandas==2.3.0
 redis==6.2.0
 firebase-admin==6.9.0
