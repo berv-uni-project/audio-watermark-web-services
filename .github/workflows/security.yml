@@ -11,7 +11,7 @@ jobs:
       CI_BUILD: 1
       DJANGO_SETTINGS_MODULE: audio_watermark_web_services.settings
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Run Safety CLI to check for vulnerabilities
       uses: pyupio/safety-action@v1
       with:
