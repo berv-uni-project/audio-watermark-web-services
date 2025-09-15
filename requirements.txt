@@ -21,4 +21,4 @@ pydub==0.25.1
 kombu==5.5.4
 billiard==4.2.1
 gunicorn==23.0.0
-whitenoise==6.9.0
+whitenoise==6.10.0
