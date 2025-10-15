@@ -5,7 +5,7 @@ WORKDIR /app
 RUN apt-get update && apt-get -y dist-upgrade && apt install -y \
     wget \
     libpng-dev \
-    gcc python3-dev \
+    gcc g++ python3-dev \
     musl-dev postgresql-client \
     ffmpeg libsndfile-dev \
     gfortran \
