@@ -1,5 +1,5 @@
 audioop-lts==0.2.2
-legacy-cgi==2.6.3
+legacy-cgi==2.6.4
 Django==5.2.7
 djangorestframework==3.16.1
 django-reset-migrations==0.4.0
